@@ -100,11 +100,12 @@ export default function Home() {
 
             {/* Departamento */}
             <div className="flex flex-col gap-1 sm:min-w-[190px]">
-              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+              <label htmlFor="select-dept" className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Departamento
               </label>
               <div className="relative">
                 <select
+                  id="select-dept"
                   value={selectedDept}
                   onChange={(e) => {
                     setSelectedDept(e.target.value);
@@ -123,11 +124,12 @@ export default function Home() {
 
             {/* Ciudad */}
             <div className="flex flex-col gap-1 sm:min-w-[190px]">
-              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+              <label htmlFor="select-city" className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Ciudad
               </label>
               <div className="relative">
                 <select
+                  id="select-city"
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
                   disabled={!selectedDept || ciudadesDelDept.length === 0}
@@ -211,6 +213,8 @@ export default function Home() {
 
         {/* Cards */}
         {status === "success" && notarias.length > 0 && (
+          <div>
+          <h2 className="sr-only">Notarías encontradas</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {notarias.map((n, i) => (
               <div
@@ -221,6 +225,7 @@ export default function Home() {
                 <NotariaCard notaria={n} />
               </div>
             ))}
+          </div>
           </div>
         )}
       </main>
