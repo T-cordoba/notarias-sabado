@@ -1,7 +1,21 @@
 "use client";
 
-import { MapPin, Phone, Mail, Clock, Navigation, Building2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Navigation, Info } from "lucide-react";
 import type { Notaria } from "@/types/notaria";
+
+function normalizeDir(dir: string) {
+  return dir
+    .replace(/N[°oº\.]\s*/gi, "#")  // N°, No., Nº → #
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildMapsUrl(notaria: Notaria) {
+  if (!notaria.direccion) return null;
+  const query = [normalizeDir(notaria.direccion), notaria.departamento, "Colombia"]
+    .filter(Boolean).join(", ");
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
 
 interface Props {
   notaria: Notaria;
@@ -60,23 +74,32 @@ export default function NotariaCard({ notaria }: Props) {
       </div>
 
       {/* Footer */}
-      <div className="px-5 pb-5 pt-1">
-        {notaria.maps_url ? (
-          <a
-            href={notaria.maps_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
-          >
-            <Navigation className="w-4 h-4" />
-            Ver ubicación en Maps
-          </a>
-        ) : (
-          <div className="flex items-center justify-center gap-2 w-full bg-slate-100 text-slate-400 text-sm py-2.5 rounded-xl cursor-not-allowed select-none">
-            <Navigation className="w-4 h-4" />
-            Ubicación no disponible
-          </div>
-        )}
+      <div className="px-5 pb-5 pt-1 space-y-2">
+        {(() => {
+          const url = buildMapsUrl(notaria);
+          return url ? (
+            <>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
+              >
+                <Navigation className="w-4 h-4" />
+                Ver en Maps
+              </a>
+              <p className="flex items-start gap-1 text-xs text-slate-400 leading-snug">
+                <Info className="w-3 h-3 shrink-0 mt-0.5" />
+                Ubicación aproximada — verificá la dirección antes de ir.
+              </p>
+            </>
+          ) : (
+            <div className="flex items-center justify-center gap-2 w-full bg-slate-100 text-slate-400 text-sm py-2.5 rounded-xl cursor-not-allowed select-none">
+              <Navigation className="w-4 h-4" />
+              Dirección no disponible
+            </div>
+          );
+        })()}
       </div>
     </article>
   );
