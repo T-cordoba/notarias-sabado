@@ -70,6 +70,15 @@ export default function Home() {
         </div>
       </header>
 
+      {/* ── SEO description ────────────────────────────────────── */}
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2">
+          <p className="text-xs text-slate-500 text-center">
+            Consulta qué notarías tienen turno sabatino en Colombia — filtra por fecha, departamento y ciudad con datos oficiales del Supernotariado. Herramienta no oficial de uso libre.
+          </p>
+        </div>
+      </div>
+
       {/* ── Filter bar ─────────────────────────────────────────── */}
       <div className="bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
@@ -191,7 +200,11 @@ export default function Home() {
             </div>
             <h2 className="text-lg font-semibold text-slate-700">Sin resultados</h2>
             <p className="text-slate-500 text-sm max-w-sm">
-              No hay notarías habilitadas para esta fecha con los filtros seleccionados.
+              No hay notarías con turno programado para el {formatFecha(fecha)}
+              {selectedCity ? ` en esta ciudad` : selectedDept ? ` en ${selectedDept}` : ""}.
+            </p>
+            <p className="text-slate-400 text-xs max-w-sm">
+              Intenta con otra fecha, busca en un municipio cercano o consulta el departamento completo.
             </p>
           </div>
         )}
@@ -214,8 +227,8 @@ export default function Home() {
 
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="border-t border-slate-200 bg-white mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <p className="text-center text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col items-center gap-2 text-center">
+          <p className="text-xs text-slate-400">
             Datos extraídos de{" "}
             <a
               href="https://www.supernotariado.gov.co/notarias-sabado/"
@@ -226,6 +239,10 @@ export default function Home() {
               supernotariado.gov.co
             </a>{" "}
             · Solo notarías con turno sabatino programado
+          </p>
+          <p className="text-xs text-slate-300 max-w-md">
+            Este sitio no es oficial. Existe porque consultar una notaría un sábado
+            no debería ser complicado. Herramienta de uso libre, sin fines comerciales.
           </p>
         </div>
       </footer>
