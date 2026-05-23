@@ -41,9 +41,33 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Notarías Sábado Colombia",
+  url: "https://notarias-sabado.vercel.app",
+  description:
+    "Consulta qué notarías atienden los sábados en Colombia por fecha, departamento y ciudad. Datos oficiales del Supernotariado.",
+  applicationCategory: "GovernmentService",
+  operatingSystem: "All",
+  inLanguage: "es-CO",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "COP" },
+  provider: {
+    "@type": "Organization",
+    name: "Supernotariado de Colombia",
+    url: "https://www.supernotariado.gov.co",
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-slate-50 text-slate-900 antialiased">
         {children}
       </body>
