@@ -84,6 +84,8 @@ export default function Home() {
               <input
                 type="date"
                 value={fecha}
+                min="2024-01-06"
+                step="7"
                 onChange={(e) => setFecha(e.target.value)}
                 className="border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
