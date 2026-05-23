@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     "horario notarías sábado",
   ],
   openGraph: {
-    title: "Notarías Sábado Colombia",
+    title: "Notarías Sábado Colombia | Consulta por ciudad y fecha",
     description:
-      "Buscá fácilmente qué notarías atienden el sábado en tu ciudad. Datos oficiales del Supernotariado.",
+      "Buscá fácilmente qué notarías atienden el sábado en tu ciudad y departamento. Datos oficiales actualizados del Supernotariado de Colombia.",
     type: "website",
     locale: "es_CO",
     images: [
@@ -25,15 +25,15 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Notarías Sábado Colombia",
+        alt: "Notarías Sábado Colombia — Consulta por ciudad y fecha",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Notarías Sábado Colombia",
+    title: "Notarías Sábado Colombia | Consulta por ciudad y fecha",
     description:
-      "Buscá fácilmente qué notarías atienden el sábado en tu ciudad. Datos oficiales del Supernotariado.",
+      "Buscá fácilmente qué notarías atienden el sábado en tu ciudad y departamento. Datos oficiales actualizados del Supernotariado de Colombia.",
     images: ["/og.png"],
   },
   icons: {
