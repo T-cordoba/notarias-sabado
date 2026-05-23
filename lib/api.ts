@@ -25,12 +25,15 @@ export async function fetchDepartamentos(): Promise<Departamento[]> {
   return res.json();
 }
 
-/** Calcula el próximo sábado (o hoy si es sábado) en formato YYYY-MM-DD. */
+/** Calcula el próximo sábado (o hoy si es sábado) en formato YYYY-MM-DD (hora local). */
 export function proximoSabado(): string {
   const today = new Date();
   const day = today.getDay(); // 0=Dom 6=Sáb
   const daysToAdd = day === 6 ? 0 : (6 - day + 7) % 7;
   const sat = new Date(today);
   sat.setDate(today.getDate() + daysToAdd);
-  return sat.toISOString().split("T")[0];
+  const y = sat.getFullYear();
+  const m = String(sat.getMonth() + 1).padStart(2, "0");
+  const d = String(sat.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }

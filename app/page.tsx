@@ -12,8 +12,8 @@ type Status = "idle" | "loading" | "success" | "error";
 export default function Home() {
   // ── Filtros (solo state, no disparan fetch) ───────────────────
   const [fecha, setFecha] = useState<string>(proximoSabado);
-  const [selectedDept, setSelectedDept] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [selectedDept, setSelectedDept] = useState<string>("Antioquia");
+  const [selectedCity, setSelectedCity] = useState<string>("medellin");
 
   // ── Datos ─────────────────────────────────────────────────────
   const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
