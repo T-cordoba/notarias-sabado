@@ -90,7 +90,7 @@ export default function NotariaCard({ notaria }: Props) {
               </a>
               <p className="flex items-start gap-1 text-xs text-slate-400 leading-snug">
                 <Info className="w-3 h-3 shrink-0 mt-0.5" />
-                Ubicación aproximada — verificá la dirección antes de ir.
+                Ubicación aproximada — verifica la dirección antes de ir.
               </p>
             </>
           ) : (

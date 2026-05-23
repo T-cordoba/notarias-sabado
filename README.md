@@ -14,7 +14,7 @@ El Supernotariado publica semanalmente qué notarías atienden los sábados, per
 
 ## Uso
 
-Seleccioná la fecha (solo sábados disponibles), el departamento y la ciudad, y la app muestra automáticamente las notarías habilitadas para esa combinación.
+Selecciona la fecha (solo sábados disponibles), el departamento y la ciudad, y la app muestra automáticamente las notarías habilitadas para esa combinación.
 
 ## Datos
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 const desc =
-  "Herramienta no oficial que mejora la consulta de notarías con turno sabatino en Colombia. Filtrá por ciudad — función ausente en el sitio oficial — con una interfaz moderna, intuitiva y optimizada para móvil. Datos directos del Supernotariado.";
+  "Herramienta no oficial que mejora la consulta de notarías con turno sabatino en Colombia. Filtra por ciudad — función ausente en el sitio oficial — con una interfaz moderna, intuitiva y optimizada para móvil. Datos directos del Supernotariado.";
 
 export const metadata: Metadata = {
   title: "Notarías Sábado Colombia | Consulta por ciudad y fecha",
