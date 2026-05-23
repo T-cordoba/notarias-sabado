@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Building2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
+import SaturdayPicker from "@/components/SaturdayPicker";
 import { fetchNotarias, fetchDepartamentos, proximoSabado } from "@/lib/api";
 import type { Notaria, Departamento } from "@/types/notaria";
 import NotariaCard from "@/components/NotariaCard";
@@ -81,13 +82,10 @@ export default function Home() {
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Fecha
               </label>
-              <input
-                type="date"
+              <SaturdayPicker
                 value={fecha}
                 min="2024-01-06"
-                step="7"
-                onChange={(e) => setFecha(e.target.value)}
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                onChange={setFecha}
               />
             </div>
 
