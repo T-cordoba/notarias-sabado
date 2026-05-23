@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const desc =
+  "Herramienta no oficial que mejora la consulta de notarías con turno sabatino en Colombia. Filtrá por ciudad — función ausente en el sitio oficial — con una interfaz moderna, intuitiva y optimizada para móvil. Datos directos del Supernotariado.";
+
 export const metadata: Metadata = {
   title: "Notarías Sábado Colombia | Consulta por ciudad y fecha",
-  description:
-    "Consultá qué notarías atienden los sábados en Colombia por fecha, departamento y ciudad. Datos oficiales del Supernotariado actualizados.",
+  description: desc,
   keywords: [
     "notarías sábado Colombia",
     "notarías abiertas sábado",
@@ -16,8 +18,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Notarías Sábado Colombia | Consulta por ciudad y fecha",
-    description:
-      "Buscá fácilmente qué notarías atienden el sábado en tu ciudad y departamento. Datos oficiales actualizados del Supernotariado de Colombia.",
+    description: desc,
     type: "website",
     locale: "es_CO",
     images: [
@@ -32,8 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Notarías Sábado Colombia | Consulta por ciudad y fecha",
-    description:
-      "Buscá fácilmente qué notarías atienden el sábado en tu ciudad y departamento. Datos oficiales actualizados del Supernotariado de Colombia.",
+    description: desc,
     images: ["/og.png"],
   },
   icons: {
@@ -46,8 +46,7 @@ const jsonLd = {
   "@type": "WebApplication",
   name: "Notarías Sábado Colombia",
   url: "https://notarias-sabado.vercel.app",
-  description:
-    "Consulta qué notarías atienden los sábados en Colombia por fecha, departamento y ciudad. Datos oficiales del Supernotariado.",
+  description: desc,
   applicationCategory: "GovernmentService",
   operatingSystem: "All",
   inLanguage: "es-CO",
