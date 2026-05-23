@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const desc =
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-slate-50 text-slate-900 antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   );
