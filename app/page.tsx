@@ -1,38 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Search, Building2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Building2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
 import { fetchNotarias, fetchDepartamentos, proximoSabado } from "@/lib/api";
 import type { Notaria, Departamento } from "@/types/notaria";
 import NotariaCard from "@/components/NotariaCard";
 import SkeletonCard from "@/components/SkeletonCard";
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "loading" | "success" | "error";
 
 export default function Home() {
-  // ── Filtros (solo state, no disparan fetch) ───────────────────
   const [fecha, setFecha] = useState<string>(proximoSabado);
   const [selectedDept, setSelectedDept] = useState<string>("Antioquia");
   const [selectedCity, setSelectedCity] = useState<string>("medellin");
 
-  // ── Datos ─────────────────────────────────────────────────────
   const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
   const [notarias, setNotarias] = useState<Notaria[]>([]);
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Status>("loading");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   const ciudadesDelDept =
     departamentos.find((d) => d.nombre === selectedDept)?.ciudades ?? [];
 
-  // ── Carga departamentos al montar (para los dropdowns) ────────
   useEffect(() => {
-    fetchDepartamentos()
-      .then(setDepartamentos)
-      .catch(() => {});
+    fetchDepartamentos().then(setDepartamentos).catch(() => {});
   }, []);
 
-  // ── Único punto de fetch: el botón Buscar ─────────────────────
-  const buscar = async () => {
+  const buscar = useCallback(async () => {
     setStatus("loading");
     setErrorMsg("");
     try {
@@ -43,7 +37,11 @@ export default function Home() {
       setErrorMsg(e instanceof Error ? e.message : "Error desconocido");
       setStatus("error");
     }
-  };
+  }, [fecha, selectedDept, selectedCity]);
+
+  useEffect(() => {
+    buscar();
+  }, [buscar]);
 
   const formatFecha = (f: string) => {
     const [y, m, d] = f.split("-");
@@ -72,12 +70,14 @@ export default function Home() {
       </header>
 
       {/* ── Filter bar ─────────────────────────────────────────── */}
-      <div className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-20">
+      <div className="bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex flex-wrap items-end gap-3">
+
+          {/* Grid: 2 cols mobile, flex row desktop */}
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-end">
 
             {/* Fecha */}
-            <div className="flex flex-col gap-1">
+            <div className="col-span-2 sm:col-auto flex flex-col gap-1">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Fecha
               </label>
@@ -87,12 +87,12 @@ export default function Home() {
                 min="2024-01-06"
                 step="7"
                 onChange={(e) => setFecha(e.target.value)}
-                className="border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
             </div>
 
             {/* Departamento */}
-            <div className="flex flex-col gap-1 min-w-[200px]">
+            <div className="flex flex-col gap-1 sm:min-w-[190px]">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Departamento
               </label>
@@ -101,21 +101,21 @@ export default function Home() {
                   value={selectedDept}
                   onChange={(e) => {
                     setSelectedDept(e.target.value);
-                    setSelectedCity(""); // reset ciudad cuando cambia depto
+                    setSelectedCity("");
                   }}
-                  className="w-full appearance-none border border-slate-300 rounded-xl px-3 py-2.5 pr-9 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  className="w-full appearance-none border border-slate-300 rounded-xl px-3 py-2.5 pr-8 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 >
-                  <option value="">Todos los departamentos</option>
+                  <option value="">Todos</option>
                   {departamentos.map((d) => (
                     <option key={d.nombre} value={d.nombre}>{d.nombre}</option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               </div>
             </div>
 
             {/* Ciudad */}
-            <div className="flex flex-col gap-1 min-w-[200px]">
+            <div className="flex flex-col gap-1 sm:min-w-[190px]">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Ciudad
               </label>
@@ -124,58 +124,40 @@ export default function Home() {
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
                   disabled={!selectedDept || ciudadesDelDept.length === 0}
-                  className="w-full appearance-none border border-slate-300 rounded-xl px-3 py-2.5 pr-9 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed"
+                  className="w-full appearance-none border border-slate-300 rounded-xl px-3 py-2.5 pr-8 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed"
                 >
-                  <option value="">Todas las ciudades</option>
+                  <option value="">Todas</option>
                   {ciudadesDelDept.map((c) => (
                     <option key={c.slug} value={c.slug}>{c.nombre}</option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               </div>
             </div>
 
-            {/* Buscar */}
-            <button
-              onClick={buscar}
-              disabled={status === "loading"}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:bg-blue-400 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors shadow-sm self-end"
-            >
-              {status === "loading"
-                ? <RefreshCw className="w-4 h-4 animate-spin" />
-                : <Search className="w-4 h-4" />}
-              Buscar
-            </button>
+            {/* Indicador / contador */}
+            <div className="col-span-2 sm:col-auto sm:ml-auto flex items-center self-end pb-0.5">
+              {status === "loading" && (
+                <span className="flex items-center gap-1.5 text-sm text-slate-400">
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  Buscando…
+                </span>
+              )}
+              {status === "success" && (
+                <span className="text-sm text-slate-500">
+                  <span className="font-semibold text-slate-800">{notarias.length}</span>{" "}
+                  notaría{notarias.length !== 1 ? "s" : ""}{" "}
+                  · <span className="font-medium">{formatFecha(fecha)}</span>
+                </span>
+              )}
+            </div>
 
-            {/* Contador */}
-            {status === "success" && (
-              <span className="text-sm text-slate-500 ml-auto self-end pb-2.5">
-                <span className="font-semibold text-slate-800">{notarias.length}</span>{" "}
-                notaría{notarias.length !== 1 ? "s" : ""}{" "}
-                · <span className="font-medium">{formatFecha(fecha)}</span>
-              </span>
-            )}
           </div>
         </div>
       </div>
 
       {/* ── Main ───────────────────────────────────────────────── */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
-
-        {/* Estado inicial */}
-        {status === "idle" && (
-          <div className="flex flex-col items-center justify-center py-24 gap-3 text-center">
-            <div className="bg-blue-50 rounded-full p-5 mb-2">
-              <Search className="w-10 h-10 text-blue-400" />
-            </div>
-            <h2 className="text-lg font-semibold text-slate-700">
-              Seleccioná los filtros y presioná Buscar
-            </h2>
-            <p className="text-slate-500 text-sm max-w-sm">
-              Podés filtrar por fecha, departamento y ciudad, o buscar todas las notarías del sábado.
-            </p>
-          </div>
-        )}
 
         {/* Loading */}
         {status === "loading" && (
@@ -209,9 +191,7 @@ export default function Home() {
             <div className="bg-slate-100 rounded-full p-5 mb-2">
               <Building2 className="w-10 h-10 text-slate-400" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-700">
-              Sin resultados
-            </h2>
+            <h2 className="text-lg font-semibold text-slate-700">Sin resultados</h2>
             <p className="text-slate-500 text-sm max-w-sm">
               No hay notarías habilitadas para esta fecha con los filtros seleccionados.
             </p>
