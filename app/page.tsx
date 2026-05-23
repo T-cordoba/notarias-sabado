@@ -78,7 +78,7 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-end">
 
             {/* Fecha */}
-            <div className="col-span-2 sm:col-auto flex flex-col gap-1">
+            <div className="col-span-2 sm:col-auto sm:min-w-[155px] flex flex-col gap-1">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Fecha
               </label>
@@ -199,8 +199,14 @@ export default function Home() {
         {/* Cards */}
         {status === "success" && notarias.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {notarias.map((n) => (
-              <NotariaCard key={n.codigo_dane || n.nombre} notaria={n} />
+            {notarias.map((n, i) => (
+              <div
+                key={n.codigo_dane || n.nombre}
+                className="animate-fade-up"
+                style={{ animationDelay: `${Math.min(i * 40, 400)}ms` }}
+              >
+                <NotariaCard notaria={n} />
+              </div>
             ))}
           </div>
         )}
