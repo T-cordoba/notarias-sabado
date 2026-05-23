@@ -233,19 +233,19 @@ export default function Home() {
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="border-t border-slate-200 bg-white mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col items-center gap-2 text-center">
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Datos extraídos de{" "}
             <a
               href="https://www.supernotariado.gov.co/notarias-sabado/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline text-slate-500"
+              className="underline text-slate-600 hover:text-slate-900 transition-colors"
             >
               supernotariado.gov.co
             </a>{" "}
             · Solo notarías con turno sabatino programado
           </p>
-          <p className="text-xs text-slate-300 max-w-md">
+          <p className="text-xs text-slate-500 max-w-md">
             Este sitio no es oficial. Existe porque consultar una notaría un sábado
             no debería ser complicado. Herramienta de uso libre, sin fines comerciales.
           </p>

@@ -83,12 +83,12 @@ export default function NotariaCard({ notaria }: Props) {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
+                className="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
               >
                 <Navigation className="w-4 h-4" />
                 Ver en Maps
               </a>
-              <p className="flex items-start gap-1 text-xs text-slate-400 leading-snug">
+              <p className="flex items-start gap-1 text-xs text-slate-500 leading-snug">
                 <Info className="w-3 h-3 shrink-0 mt-0.5" />
                 Ubicación aproximada — verifica la dirección antes de ir.
               </p>
