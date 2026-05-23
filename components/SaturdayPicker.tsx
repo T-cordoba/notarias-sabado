@@ -160,7 +160,7 @@ export default function SaturdayPicker({ value, onChange, min }: Props) {
                 onChange(toStr(sat));
                 setOpen(false);
               }}
-              className="w-full text-xs text-blue-600 hover:text-blue-800 font-medium transition text-center py-1"
+              className="w-full text-xs text-blue-700 font-semibold bg-blue-50 hover:bg-blue-100 active:bg-blue-200 transition rounded-lg py-2"
             >
               Seleccionar sábado más cercano
             </button>
