@@ -133,7 +133,7 @@ export default function Home() {
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
                   disabled={!selectedDept || ciudadesDelDept.length === 0}
-                  className="w-full appearance-none border border-slate-300 rounded-xl px-3 py-2.5 pr-8 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed"
+                  className="w-full appearance-none border border-slate-300 rounded-xl px-3 py-2.5 pr-8 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-[background-color,border-color,opacity] disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed"
                 >
                   <option value="">Todas</option>
                   {ciudadesDelDept.map((c) => (
