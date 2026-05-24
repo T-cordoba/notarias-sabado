@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import { unstable_cache } from "next/cache";
 import { DEPARTAMENTOS_DANE, CIUDADES_DANE, normalize } from "./dane";
 import type { Notaria } from "@/types/notaria";
 
@@ -18,9 +19,6 @@ const HEADERS: Record<string, string> = {
   "Accept-Language": "es-CO,es;q=0.9",
 };
 
-// Cache en memoria (válido mientras la función serverless esté caliente)
-const _cache = new Map<string, { data: Notaria[]; ts: number }>();
-const CACHE_TTL = 60 * 60 * 1000;
 
 const MAPS_RE = /maps\.google\.|google\.com\/maps|goo\.gl\/maps|maps\?q=/i;
 
@@ -144,22 +142,23 @@ function parseAll(html: string): Notaria[] {
 // API pública
 // ──────────────────────────────────────────────────────────────
 
-export async function scrapeNotarias(fecha: string): Promise<Notaria[]> {
-  const cached = _cache.get(fecha);
-  if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
-
+async function _scrapeNotarias(fecha: string): Promise<Notaria[]> {
   const res = await fetch(URL_PORTAL, {
     method: "POST",
     headers: HEADERS,
     body: `r=${fecha}`,
   });
-
   if (!res.ok) throw new Error(`Supernotariado respondió ${res.status}`);
-
-  const data = parseAll(await res.text());
-  _cache.set(fecha, { data, ts: Date.now() });
-  return data;
+  return parseAll(await res.text());
 }
+
+// Caché persistente en Vercel Data Cache, keyed por fecha.
+// TTL largo porque los datos de un sábado no cambian una vez publicados.
+export const scrapeNotarias = unstable_cache(
+  _scrapeNotarias,
+  ["notarias-scrape"],
+  { revalidate: 6 * 60 * 60 } // 6 horas
+);
 
 export function filterByDepartamento(notarias: Notaria[], departamento: string): Notaria[] {
   const norm = normalize(departamento);
