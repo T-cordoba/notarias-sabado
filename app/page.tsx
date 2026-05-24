@@ -11,7 +11,9 @@ import SkeletonCard from "@/components/SkeletonCard";
 type Status = "loading" | "success" | "error";
 
 export default function Home() {
-  const [fecha, setFecha] = useState<string>(proximoSabado);
+  const [fecha, setFecha] = useState<string>("");
+
+  useEffect(() => { setFecha(proximoSabado()); }, []);
   const [selectedDept, setSelectedDept] = useState<string>("Antioquia");
   const [selectedCity, setSelectedCity] = useState<string>("medellin");
 
@@ -28,6 +30,7 @@ export default function Home() {
   }, []);
 
   const buscar = useCallback(async () => {
+    if (!fecha) return;
     setStatus("loading");
     setErrorMsg("");
     try {
@@ -91,11 +94,13 @@ export default function Home() {
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Fecha
               </label>
-              <SaturdayPicker
-                value={fecha}
-                min="2024-01-06"
-                onChange={setFecha}
-              />
+              {fecha && (
+                <SaturdayPicker
+                  value={fecha}
+                  min="2024-01-06"
+                  onChange={setFecha}
+                />
+              )}
             </div>
 
             {/* Departamento */}
@@ -248,6 +253,18 @@ export default function Home() {
           <p className="text-xs text-slate-500 max-w-md">
             Este sitio no es oficial. Existe porque consultar una notaría un sábado
             no debería ser complicado. Herramienta de uso libre, sin fines comerciales.
+          </p>
+          <p className="text-xs text-slate-500">
+            Desarrollado por{" "}
+            <a
+              href="https://github.com/T-cordoba/notarias-sabado"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              T-cordoba
+            </a>
+            {" "}· Código abierto en GitHub
           </p>
         </div>
       </footer>
